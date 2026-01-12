@@ -1,8 +1,8 @@
 package com.ib.auth.controller;
 
+import com.ib.auth.dto.JwtResponse;
+import com.ib.auth.dto.UserDto;
 import com.ib.auth.entity.LoginRequest;
-import com.ib.auth.entity.User;
-import com.ib.auth.entity.UserResponse;
 import com.ib.auth.repository.UserRepository;
 import com.ib.auth.security.JwtUtil;
 import com.ib.auth.service.AuthService;
@@ -23,6 +23,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
+
     public AuthController(AuthService authService, AuthenticationManager authenticationManager,
                           UserRepository userRepository,
                           JwtUtil jwtUtil) {
@@ -40,26 +41,12 @@ public class AuthController {
 //    }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-
-        Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
-                )
+    public JwtResponse login(@RequestBody LoginRequest request) {
+        String token = authService.login(
+                request.getUsername(),
+                request.getPassword()
         );
-
-        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-
-        User user = userRepository
-                .findByUsername(userDetails.getUsername())
-                .orElseThrow();
-
-        String token = jwtUtil.generateToken(user);
-
-        return ResponseEntity.ok(
-                Map.of("token", token)
-        );
+        return new JwtResponse(token);
     }
 
     @GetMapping("/me")

@@ -1,8 +1,6 @@
 package com.ib.auth.security;
 
-import java.security.Key;
-
-import com.ib.auth.entity.User;
+import com.ib.auth.dto.UserDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -29,7 +27,7 @@ public class JwtUtil {
         );
     }
 
-    public String generateToken(User user) {
+    public String generateToken(UserDto user) {
         return Jwts.builder()
                 .setSubject(user.getUsername())
                 .claim("role", user.getRole())
@@ -48,5 +46,4 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-
 }

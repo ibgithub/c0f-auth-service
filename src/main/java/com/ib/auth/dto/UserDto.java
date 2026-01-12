@@ -1,24 +1,11 @@
-package com.ib.auth.entity;
+package com.ib.auth.dto;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserDto {
     private Long id;
-
-    @Column(unique = true, nullable = false)
     private String username;
-
-    @Column(nullable = false)
+    private String email;
     private String password;
-
-    private String role = "USER";
-
-    public User() {}
+    private String role;
 
     public Long getId() {
         return id;
@@ -34,6 +21,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
