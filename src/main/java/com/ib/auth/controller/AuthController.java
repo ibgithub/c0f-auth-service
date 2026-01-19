@@ -20,17 +20,9 @@ import java.util.Map;
 public class AuthController {
 
     private final AuthService authService;
-    private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
-    private final JwtUtil jwtUtil;
 
-    public AuthController(AuthService authService, AuthenticationManager authenticationManager,
-                          UserRepository userRepository,
-                          JwtUtil jwtUtil) {
+    public AuthController(AuthService authService) {
         this.authService = authService;
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.jwtUtil = jwtUtil;
     }
 
 //    @PostMapping("/login")
